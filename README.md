@@ -4,7 +4,7 @@ Charles world re-implemented as a web application to work cross-platform.
 The code runs dynamically in browser and it corelates function names like `on_ball` and `step` to internal implementations. The code runs only once and generates an array of *snapshots* of how Charles world looks like after every change (see `state-manager.ts` for details), a `render` method then takes every snapshot and draws the state of the world one snapshot at a time with a delay between the drawings.
 # Installation
 ```
-clone https://github.com/Zaid-Ajaj/MetaCharlesWorld.git meta-charles
+git clone https://github.com/Zaid-Ajaj/MetaCharlesWorld.git meta-charles
 cd meta-charles
 npm install
 npm run watch
