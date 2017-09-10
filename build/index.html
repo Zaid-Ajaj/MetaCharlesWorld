@@ -3,6 +3,7 @@
     <head>
         <title>Web Charles World</title>
         <link href="styles.css" rel="stylesheet" />
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/mode-javascript.js"></script>
@@ -26,8 +27,9 @@ while (!in_front_of_wall()) {
             </tr>
         </table>
         <div>
-            <button id="btnRun" class="btn btn-success" style="margin:5px; margin-left:15px;">Run</button>
-            <button id="btnReset" class="btn btn-warning" style="margin:5px">Reset</button>
+            <button id="btnRun" class="btn btn-success" style="margin:5px; margin-left:15px;"><i class="fa fa-bolt"></i> Run</button>
+            <button id="btnReset" class="btn btn-warning" style="margin:5px"><i class="fa fa-trash"></i> Reset</button>
+            <a href="https://github.com/Zaid-Ajaj/MetaCharlesWorld" class="btn btn-info" style="margin:5px"><i class="fa fa-github"></i> Gihub</a>
         </div>
         <script>
             var editor = ace.edit("editor");
