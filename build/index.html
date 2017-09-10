@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Web Charles World</title>
+        <link href="styles.css" rel="stylesheet" />
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/ace.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.8/mode-javascript.js"></script>
+    </head>
+    <body>
+        <table>
+            <tr>
+                <td>
+                    <div id="editor" style="height:365px; margin:10px; width:500px;border:1px solid #d3d3d3;">make_string_with_balls();
+
+while (!in_front_of_wall()) {
+    if (on_ball()) {
+        get_ball();
+    }
+    step();
+}</div>            
+                </td>
+                <td>
+                    <canvas id="worldMap" height="365" width="550" style="margin:10px;border:1px solid #d3d3d3;" ></canvas>        
+                </td>
+            </tr>
+        </table>
+        <div>
+            <button id="btnRun" class="btn btn-success" style="margin:5px; margin-left:15px;">Run</button>
+            <button id="btnReset" class="btn btn-warning" style="margin:5px">Reset</button>
+        </div>
+        <script>
+            var editor = ace.edit("editor");
+            editor.getSession().setMode("ace/mode/javascript");
+        </script>
+        <script src="bundle.js" ></script>
+    </body>
+</html>
