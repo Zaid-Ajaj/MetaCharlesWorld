@@ -1,9 +1,0 @@
-{
-    "compilerOptions": {
-        "sourceMap": true,
-        "allowJs": true
-    },
-    "include": [
-        "./src/**/*"
-    ]
-}
