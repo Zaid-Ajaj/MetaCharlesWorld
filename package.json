@@ -1,5 +1,5 @@
 {
-  "name": "web-charles-world",
+  "name": "meta-charles-world",
   "version": "1.0.0",
   "description": "Browser app implementation of Charles World used at the Radboud University",
   "main": "main.ts",

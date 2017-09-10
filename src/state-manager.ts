@@ -10,11 +10,12 @@ export interface StateManagerOptions {
 }
 
 export class StateManager {
-    private snapshots : Maybe<Models.WorldState>[] = [];
+    public snapshots : Maybe<Models.WorldState>[] = [];
     private canvas: HTMLCanvasElement = undefined;
     private hasError: boolean = false;
-    private validSnapshots : Models.WorldState[] = [];
+    private snapshotClones : Maybe<Models.WorldState>[] = [];
     private renderDelay: number = 1000;
+    private worldState: Models.WorldState;
 
     constructor(options: StateManagerOptions) {
         this.canvas = options.canvas;
@@ -87,33 +88,33 @@ export class StateManager {
 
         var lastWorldSnapshot = this.snapshots[this.snapshots.length - 1];
         if (!lastWorldSnapshot.hasValue) {
-            alert(lastWorldSnapshot.error);
+           // alert(lastWorldSnapshot.error);
             this.hasError = true;
             return;
         }
 
         var prevWorld = lastWorldSnapshot.value;
         var maybeNext = World.step(prevWorld);
-        this.snapshots.push(maybeNext);
+        this.snapshots.push({ hasValue: true, value:maybeNext });
     }
 
     public in_front_of_wall() {
         if (this.hasError) {
-            return true;
+            return false;
         } 
 
         var lastWorldSnapshot = this.snapshots[this.snapshots.length - 1];
         if (!lastWorldSnapshot.hasValue) {
             alert(lastWorldSnapshot.error);
             this.hasError = true;
-            return;
+            return true;
         }
 
         var prevWorld = lastWorldSnapshot.value;
         return World.in_front_of_wall(prevWorld);
     }
 
-    public makeInstanceMethodGlobal(stateManager: StateManager) {
+    public makeInstanceMethodsGlobal(stateManager: StateManager) {
         window["put_ball"] = function() { stateManager.put_ball(); };
         window["step"] = function() { stateManager.step(); };
         window["turn_right"] = function() { stateManager.turn_right(); };
@@ -136,11 +137,18 @@ export class StateManager {
         if (!lastWorldSnapshot.hasValue) {
             alert(lastWorldSnapshot.error);
             this.hasError = true;
-            return;
+            return true;
         }
 
         var prevWorld = lastWorldSnapshot.value;
         return World.on_ball(prevWorld);
+    }
+
+    public pause(milliseconds) {
+        var dt = new Date();
+        while (<any>(<any>(new Date()) - <any>dt) <= milliseconds) {
+             /* Do nothing */ 
+        }
     }
     public make_string_with_balls() {
         if (this.hasError) {
@@ -151,7 +159,7 @@ export class StateManager {
         if (!lastWorldSnapshot.hasValue) {
             alert(lastWorldSnapshot.error);
             this.hasError = true;
-            return;
+            return true;
         }
 
         var prevWorld = lastWorldSnapshot.value;
@@ -195,20 +203,25 @@ export class StateManager {
     }
 
     private renderSnapshots() {
-        if (this.validSnapshots.length === 0) {
+        if (this.snapshotClones.length === 0) {
             return;
         }
 
-        var lastSnapshot = this.validSnapshots.pop();
+        var lastSnapshot = this.snapshotClones.pop();
         setTimeout(() => {
             // clear canvas
             this.canvas.getContext('2d').clearRect(0, 0, this.canvas.width, this.canvas.height);
             // draw next snapshot
-            Canvas.render({
-                canvas: this.canvas,
-                cellPadding: 13,
-                world: lastSnapshot
-            });
+            if (lastSnapshot.hasValue) {
+                Canvas.render({
+                    canvas: this.canvas,
+                    cellPadding: 13,
+                    world: lastSnapshot.value
+                });
+            } else {
+                alert(lastSnapshot.error);
+            }
+            
             // go to next snapshot
             this.renderSnapshots();
         }, this.renderDelay);
@@ -220,18 +233,14 @@ export class StateManager {
         this.render();
     }
 
-
-
     public render() {
         if (this.snapshots.length === 0) {
             return;
         } 
 
-        this.validSnapshots = this.snapshots
-                                  .filter(snapshot => snapshot.hasValue)
-                                  .map(snapshot => snapshot.value);
+        this.snapshotClones = JSON.parse(JSON.stringify(this.snapshots))
 
-        this.validSnapshots.reverse();
+        this.snapshotClones.reverse();
 
         this.renderSnapshots();
     }

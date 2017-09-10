@@ -158,7 +158,7 @@ export function make_string_with_balls(world: Models.WorldState) : Models.WorldS
     return world;
 }
 
-export function step(world: Models.WorldState) : Maybe<Models.WorldState> {
+export function step(world: Models.WorldState) : Models.WorldState {
     world = clone(world);
     var x = world.player.position.X;
     var y = world.player.position.Y;
@@ -166,37 +166,41 @@ export function step(world: Models.WorldState) : Maybe<Models.WorldState> {
     var height = world.height;
     var currentCell = world.state[y][x];
 
+    if (in_front_of_wall(world)) {
+        throw new Error("Player crashed into wall");
+    }
+
     if (world.player.direction == "south") {
         if (y == height - 1) {
             // already at the max height
-            return { hasValue: false, error: "Player out of bounds" };
+            throw new Error("Player out of bounds");
         }
 
         world.player.position.Y = world.player.position.Y + 1;
-        return { hasValue: true, value: world };
+        return world;
 
     } else if (world.player.direction == "north") {
         if (y == 0) {
-            return { hasValue: false, error: "Player out of bounds" };
+            throw new Error("Player out of bounds");
         }
 
         world.player.position.Y = world.player.position.Y - 1;
-        return { hasValue: true, value: world };
+        return world;
 
     } else if (world.player.direction == "west") {
         if (x == 0) {
-            return { hasValue: false, error: "Player out of bounds" };
+            throw new Error("Player out of bounds");
         }
 
         world.player.position.X = world.player.position.X - 1;
-        return { hasValue: true, value: world };
+        return world;
     } else {
         // world.player.direction == "east" 
         if (x == width - 1) {
-            return { hasValue: false, error: "Player out of bounds" };
+            throw new Error("Player out of bounds");
         }
 
         world.player.position.X =  world.player.position.X + 1;
-        return { hasValue: true, value: world };
+        return world;
     }
 }

@@ -12,8 +12,8 @@
         <table>
             <tr>
                 <td>
-                    <div id="editor" style="height:365px; margin:10px; width:500px;border:1px solid #d3d3d3;">make_string_with_balls();
-
+                    <div id="editor" style="height:365px; margin:10px; width:500px;border:1px solid #d3d3d3;">
+make_string_with_balls();
 while (!in_front_of_wall()) {
     if (on_ball()) {
         get_ball();
@@ -31,10 +31,7 @@ while (!in_front_of_wall()) {
             <button id="btnReset" class="btn btn-warning" style="margin:5px"><i class="fa fa-trash"></i> Reset</button>
             <a href="https://github.com/Zaid-Ajaj/MetaCharlesWorld" class="btn btn-info" style="margin:5px"><i class="fa fa-github"></i> Gihub</a>
         </div>
-        <script>
-            var editor = ace.edit("editor");
-            editor.getSession().setMode("ace/mode/javascript");
-        </script>
+
         <script src="bundle.js" ></script>
     </body>
 </html>
